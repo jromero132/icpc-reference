@@ -23,3 +23,5 @@ jobs:
           cmake --build build
           cd build
           ctest
+      - name: Run pwd
+        run: pwd
