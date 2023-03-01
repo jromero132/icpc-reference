@@ -1,2 +1,5 @@
 # vscode settings
 .vscode
+
+# cmake tests build directory
+tests/unit/build
