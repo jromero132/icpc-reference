@@ -10,7 +10,7 @@ on:
 
 jobs:
   build:
-    name: Say hi from CI
+    name: Hi from CI
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
