@@ -16,10 +16,15 @@ jobs:
     timeout-minutes: 30
     steps:
       - uses: actions/checkout@v3
-      - name: Build & run unit tests
+      - name: Build unit tests
         run: |
           cd tests/unit
           cmake -S . -B build
           cmake --build build
-          cd build
+      - name: Run unit tests
+        run: |
+          cd tests/unit/build
           ctest
+      - name: Unit tests logs
+        run: |
+          cat tests/unit/build/Testing/Temporary/LastTest.log

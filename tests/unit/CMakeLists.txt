@@ -12,13 +12,23 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(Catch2)
 
-set(SANITY_TEST sanity.cc)
+# Include parent directory so "code" directory can be imported
+get_filename_component(PARENT_DIR ../../ ABSOLUTE)
+include_directories(${PARENT_DIR})
 
+set(SANITY_TEST sanity.cc)  # Sanity test
+set(DATA_STRUCTURES_TESTS   # Data structures tests
+  data_structures/fenwick_tree.cc
+)
+
+# Add the tests
 add_executable(tests tests.cc
   ${SANITY_TEST}
+  ${DATA_STRUCTURES_TESTS}
 )
 target_link_libraries(tests PRIVATE Catch2::Catch2)
 
+# Add the testing frameworks and find the tests
 list(APPEND CMAKE_MODULE_PATH ${catch2_SOURCE_DIR}/contrib)
 include(CTest)
 include(Catch)
