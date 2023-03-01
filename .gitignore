@@ -1,5 +1,8 @@
 # vscode settings
 .vscode
 
+# clang format
+.clang-format
+
 # cmake tests build directory
 tests/unit/build
