@@ -16,7 +16,6 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Write a message
-        run: |
-          Hi from CI!
-          This is just a sanity check, and the only intended purpose
-          of this job is to have a job that always successes.
+        run: >-
+          echo Hi from CI! This is just a sanity check, and the only intended purpose of this job
+          is to have a job that always successes.
