@@ -13,10 +13,15 @@ jobs:
   build:
     name: Hi from CI
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v3
-      - name: Write a message
-        run: >-
-          echo Hi from CI! This is just a sanity check, and the only intended purpose of this job
-          is to have a job that always successes.
+      - name: Build tests
+        run: |
+          cd tests
+          cmake -S . -B build
+          cmake --build build
+      - name: Run tests
+        run: |
+          cd build
+          ctest
