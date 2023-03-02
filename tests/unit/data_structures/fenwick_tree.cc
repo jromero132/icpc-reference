@@ -1,5 +1,3 @@
-#pragma once
-
 #include "code/data_structures/fenwick_tree.hpp"
 
 #include <tuple>
