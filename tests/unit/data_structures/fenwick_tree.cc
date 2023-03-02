@@ -15,8 +15,11 @@ fenwick<T> build_fenwick_tree(std::vector<T> v) {
 }
 
 TEST_CASE("SumFenwickTree", "[fenwick_tree]") {
+    // Calculate the sum of a all elements in a range.
+    // Range is [a, b) and 0-index.
+
     std::vector<int> a = {1, 10, 100, 1000, 10000};
-    std::vector<std::pair<int, int>> queries = {{2, 3}, {0, 3}, {2, 5}, {3, 4}, {0, 5}};  // [a, b)
+    std::vector<std::pair<int, int>> queries = {{2, 3}, {0, 3}, {2, 5}, {3, 4}, {0, 5}};
     std::vector<int> expected = {100, 111, 11100, 1000, 11111};
 
     fenwick<int> f = build_fenwick_tree(a);
@@ -31,6 +34,11 @@ TEST_CASE("SumFenwickTree", "[fenwick_tree]") {
 }
 
 TEST_CASE("XorFenwickTree", "[fenwick_tree]") {
+    // Calculate the xor of a all elements in a range.
+    // Two types of queries:
+    //    - 1: Range xor of interval [a, b) and 0-index.
+    //    - 2: Update position p (0-index) with value v
+
     struct _xor {
         int val;
 
@@ -63,9 +71,9 @@ TEST_CASE("XorFenwickTree", "[fenwick_tree]") {
             int left = std::get<1>(queries[i]);
             int right = std::get<2>(queries[i]);
 
+            CAPTURE(i, cnt, t, left, right, result, expected[cnt]);
             if(t == 1) {
                 int result = f.query(right).val ^ f.query(left).val;
-                CAPTURE(i, cnt, t, left, right, result, expected[cnt]);
                 REQUIRE(result == expected[cnt]);
                 ++cnt;
             }
@@ -101,9 +109,9 @@ TEST_CASE("XorFenwickTree", "[fenwick_tree]") {
             int t = std::get<0>(queries[i]), left = std::get<1>(queries[i]),
                 right = std::get<2>(queries[i]);
 
+            CAPTURE(i, cnt, t, left, right, result, expected[cnt]);
             if(t == 1) {
                 int result = f.query(right).val ^ f.query(left).val;
-                CAPTURE(i, cnt, t, left, right, result, expected[cnt]);
                 REQUIRE(result == expected[cnt]);
                 ++cnt;
             }
@@ -113,5 +121,3 @@ TEST_CASE("XorFenwickTree", "[fenwick_tree]") {
         }
     }
 }
-
-// 2 1 1 3 2 3 4 5 6 7 8 9
