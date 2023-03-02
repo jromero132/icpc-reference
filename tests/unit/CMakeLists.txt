@@ -20,11 +20,15 @@ set(SANITY_TEST sanity.cc)  # Sanity test
 set(DATA_STRUCTURES_TESTS   # Data structures tests
   data_structures/fenwick_tree.cc
 )
+set(UTILITIES_TESTS
+  utilities/random.cc
+)
 
 # Add the tests
 add_executable(tests tests.cc
   ${SANITY_TEST}
   ${DATA_STRUCTURES_TESTS}
+  ${UTILITIES_TESTS}
 )
 target_link_libraries(tests PRIVATE Catch2::Catch2)
 
