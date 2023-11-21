@@ -44,12 +44,12 @@ namespace testing {
             std::cout << colors::COLOR_RED << "FAILED" << colors::NO_COLOR << "]";
 
             if (CURRENT_FUNC_FAILS.size() > 0) {
-                std::cout << " (" << (CURRENT_FUNC_FAILS.size() == 1 ? "Line: " : "Lines: ");
-
                 sort(CURRENT_FUNC_FAILS.begin(), CURRENT_FUNC_FAILS.end());
                 CURRENT_FUNC_FAILS.erase(
                     unique(CURRENT_FUNC_FAILS.begin(), CURRENT_FUNC_FAILS.end()), CURRENT_FUNC_FAILS.end()
                 );
+
+                std::cout << " (" << (CURRENT_FUNC_FAILS.size() == 1 ? "Line: " : "Lines: ");
                 for (int i = 0; i < CURRENT_FUNC_FAILS.size(); ++i) {
                     std::cout << (i == 0 ? "" : ", ") << CURRENT_FUNC_FAILS[i];
                 }
