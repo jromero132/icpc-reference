@@ -11,20 +11,16 @@ on:
 
 jobs:
   build:
-    name: Unit Tests
+    name: Run Tests
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
       - uses: actions/checkout@v3
-      - name: Build unit tests
+      - name: Set up C++
         run: |
-          cd tests/unit
-          cmake -S . -B build
-          cmake --build build
-      - name: Run unit tests
+          sudo apt install -y --no-install-recommends build-essential
+          g++ --version
+      - name: Run tests
         run: |
-          cd tests/unit/build
-          ctest
-      - name: Unit tests logs
-        run: |
-          cat tests/unit/build/Testing/Temporary/LastTest.log
+          ./run_tests.sh
+        working-directory: tests
