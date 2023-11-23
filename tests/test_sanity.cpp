@@ -1,5 +1,6 @@
 #include <cassert>
 #include <string>
+#include <vector>
 
 #include "testing.hpp"
 
@@ -17,4 +18,21 @@ void test_sanity_check_calc() {  // Obvious integer comparison
     assert(11 * 12 == expected);
 }
 
-int main() { return testing::run_tests({test_sanity_check_string, test_sanity_check_calc}); }
+void test_sanity_check_vector() {
+    testing::CURRENT_FUNC_NAME = __func__;
+    vector<int> v1 = {1, 3, 2};
+    vector<int> v2 = v1;
+    assert(v1 == v2);
+
+    v1[2] = 132;
+    assert(v1 != v2);
+
+    vector<vector<int>> v3 = {{1, 3, 2}, {13, 2, 132}};
+    vector<vector<int>> v4 = v3;
+    assert(v3 == v4);
+
+    v3[0][2] = 132;
+    assert(v3 != v4);
+}
+
+int main() { return testing::run_tests({test_sanity_check_string, test_sanity_check_calc, test_sanity_check_vector}); }
