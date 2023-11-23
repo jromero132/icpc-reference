@@ -1,9 +1,8 @@
-#include "code/data_structures/fenwick_tree.hpp"
-
 #include <cassert>
 #include <tuple>
 #include <vector>
 
+#include "code/data_structures/fenwick_tree.hpp"
 #include "testing.hpp"
 
 using namespace std;
