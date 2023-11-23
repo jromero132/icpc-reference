@@ -1,11 +1,27 @@
 #include <cassert>
+#include <cmath>
 #include <vector>
+
+const double MATRIX_EPS = 1e-9;
 
 template <typename T>
 using matrix_row = std::vector<T>;
 
 template <typename T>
 using matrix = std::vector<matrix_row<T>>;
+
+template <typename T>
+matrix<T>& clone(const matrix<T>& a) {
+    matrix<T> ans;
+    int n = a.size(), m = a[0].size();
+    for (int i = 0; i < n; ++i) {
+        ans.push_back(matrix_row<T>(m));
+        for (int j = 0; j < m; ++j) {
+            ans[i][j] = a[i][j];
+        }
+    }
+    return ans;
+}
 
 template <typename T>
 matrix<T> null_matrix(const int n, const int m) {
@@ -84,4 +100,54 @@ matrix<T> transpose(const matrix<T>& a) {
         }
     }
     return ans;
+}
+
+template <typename T>
+std::pair<double, std::vector<double>> determinant_and_gauss(
+    const matrix<T>& a, const std::vector<T>& result = std::vector<T>()
+) {
+    int n = a.size();
+    assert(n == a[0].size() && (result.size() == 0 || result.size() == n));
+
+    std::vector<double> sol(n);
+    matrix<double> mat(n, matrix_row<double>(n));
+    for (int i = 0; i < n; ++i) {
+        if (result.size() != 0) {
+            sol[i] = result[i];
+        }
+        for (int j = 0; j < n; ++j) {
+            mat[i][j] = a[i][j];
+        }
+    }
+
+    double det = 1;
+    for (int i = 0, p = 0; i < n; p = ++i) {
+        for (int j = i + 1; j < n; ++j) {
+            if (fabs(mat[p][i]) < fabs(mat[j][i])) {
+                p = j;
+            }
+        }
+        std::swap(mat[i], mat[p]);
+        std::swap(sol[i], sol[p]);
+        if (fabs(mat[i][i]) < MATRIX_EPS) {
+            return {0, {}};
+        }
+        for (int j = i + 1; j < n; ++j) {
+            for (int k = i + 1; k < n; ++k) {
+                mat[j][k] -= mat[i][k] * mat[j][i] / mat[i][i];
+            }
+            sol[j] -= sol[i] * mat[j][i] / mat[i][i];
+        }
+        det *= mat[i][i];
+        if (p != i) {
+            det = -det;
+        }
+    }
+    for (int i = n - 1; i >= 0; --i) {
+        for (int j = i + 1; j < n; ++j) {
+            sol[i] -= mat[i][j] * sol[j];
+        }
+        sol[i] /= mat[i][i];
+    }
+    return {det, sol};
 }
