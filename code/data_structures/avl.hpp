@@ -2,9 +2,10 @@
 //   - Submission: https://judge.yosupo.jp/submission/173664
 
 #include <algorithm>
+#include <functional>
 #include <vector>
 
-template <typename T>
+template <typename T, typename CmpLess = std::less<T>, typename CmpEquals = std::equal_to<T>>
 struct avl {
     // This structure does not accept repeated values.
     // In case you want to repeat values you can trick it by use a pair and a custom comparator.
@@ -29,6 +30,9 @@ struct avl {
             sz = 1 + ch[0]->sz + ch[1]->sz;
         }
     } *root, *null;
+
+    CmpLess cmp_less;
+    CmpEquals cmp_equals;
 
     node* new_node(const T& key) const {
         // Time complexity: O(T1)
@@ -92,9 +96,9 @@ struct avl {
         // e.g. using integer or double values: O(log(n)) ; O(1)
 
         if (u == null) return u = new_node(key);
-        if (u->key == key) return u;
+        if (cmp_equals(u->key, key)) return u;
 
-        bool d = (key > u->key);
+        bool d = cmp_less(u->key, key);
         u->ch[d] = insert(u->ch[d], key);
         return u = balance(u);
     }
@@ -119,7 +123,7 @@ struct avl {
         if (u == null) return u;
 
         T tmp = u->key;
-        if (u->key == key) {
+        if (cmp_equals(u->key, key)) {
             if (u->ch[0] == null || u->ch[1] == null) {
                 return u->ch[u->ch[0] == null];
             }
@@ -132,7 +136,7 @@ struct avl {
             }
         }
 
-        bool d = (key > tmp);
+        bool d = cmp_less(tmp, key);
         u->ch[d] = erase(u->ch[d], key);
         return u = balance(u);
     }
@@ -155,7 +159,7 @@ struct avl {
         // e.g. using integer or double values: O(log(n)) ; O(1)
 
         node* u = root;
-        while (u != null && u->key != key) {
+        while (u != null && !cmp_equals(u->key, key)) {
             u = u->ch[key > u->key];
         }
         return u != null;
@@ -172,7 +176,7 @@ struct avl {
         int r = 0;
         node* u = root;
         while (u != null) {
-            if (key <= u->key) {
+            if (cmp_less(key, u->key) || cmp_equals(key, u->key)) {
                 u = u->ch[0];
             }
             else {
@@ -230,7 +234,8 @@ struct avl {
         return in_order(root);
     }
 
-    avl() {
+    avl(const CmpLess& cmp_less = CmpLess(), const CmpEquals& cmp_equals = CmpEquals())
+        : cmp_less(cmp_less), cmp_equals(cmp_equals) {
         // Time complexity: O(T1)
         // Memory complexity: O(M1)
         //   - T1: time complexity of creating one T value
@@ -243,15 +248,14 @@ struct avl {
         root = null;
     }
 
-    avl(std::vector<T> initial_values) : avl() {
-        // Time complexity: O(n * T1)
-        // Memory complexity: O(M1)
-        //   - T1: time complexity of insert function
-        //   - M1: memory complexity of insert function
-        //   - n: number of elements in the vector
-
-        for (auto v : initial_values) {
-            insert(v);
+    template <typename Iter>
+    avl(Iter first, Iter last, const CmpLess& cmp_less = CmpLess(), const CmpEquals& cmp_equals = CmpEquals())
+        : avl(cmp_less, cmp_equals) {
+        for (auto it = first; it != last; ++it) {
+            insert(*it);
         }
     }
+
+    avl(std::vector<T> initial_values, const CmpLess& cmp_less = CmpLess(), const CmpEquals& cmp_equals = CmpEquals())
+        : avl(initial_values.begin(), initial_values.end(), cmp_less, cmp_equals) {}
 };
