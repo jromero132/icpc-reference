@@ -12,16 +12,26 @@ using matrix = std::vector<matrix_row<T>>;
 
 template <typename T>
 matrix<T> null_matrix(const int n, const int m) {
-    // O(n * m)
+    // Time complexity: O(n * m * T1)
+    // Memory complexity: O(n * m * M1)
     //   - n: number of rows
     //   - m: number of columns
+    //   - T1: time complexity of creating one T value
+    //   - M1: memory complexity of creating one T value
+    // e.g. using integer or double values: O(n * m) ; O(n * m)
+
     return matrix<T>(n, matrix_row<T>(m, (T)0));
 }
 
 template <typename T>
 matrix<T> identity_matrix(const int n) {
-    // O(n^2)
+    // Time complexity: O(n^2 * T1)
+    // Memory complexity: O(n^2 * M1)
     //   - n: number of rows and columns
+    //   - T1: time complexity of creating one T value
+    //   - M1: memory complexity of creating one T value
+    // e.g. using integer or double values: O(n^2) ; O(n^2)
+
     matrix<T> ans = matrix<T>(n, matrix_row<T>(n, (T)0));
     for (int i = 0; i < n; ++i) {
         ans[i][i] = (T)1;
@@ -31,17 +41,27 @@ matrix<T> identity_matrix(const int n) {
 
 template <typename T>
 matrix<T> identity_matrix(const matrix<T>& m) {
-    // O(n^2)
+    // Time complexity: O(n^2 * T1)
+    // Memory complexity: O(n^2 * M1)
     //   - n: number of rows and columns
+    //   - T1: time complexity of creating one T value
+    //   - M1: memory complexity of creating one T value
+    // e.g. using integer or double values: O(n^2) ; O(n^2)
+
     assert(m.size() == m[0].size());
     return identity_matrix<T>(m.size());
 }
 
 template <typename T>
 matrix<T> operator+(const matrix<T>& a, const matrix<T>& b) {
-    // O(n * m)
+    // Time complexity: O(n * m * T1)
+    // Memory complexity: O(n * m * M1)
     //   - n: number of rows
     //   - m: number of columns
+    //   - T1: time complexity of adding and assigning two T values
+    //   - M1: memory complexity of creating one T value
+    // e.g. using integer or double values: O(n * m) ; O(n * m)
+
     int n = a.size(), m = a[0].size();
     assert(n == b.size() && m == b[0].size());
     matrix<T> ans;
@@ -56,9 +76,14 @@ matrix<T> operator+(const matrix<T>& a, const matrix<T>& b) {
 
 template <typename T>
 matrix<T> operator-(const matrix<T>& a, const matrix<T>& b) {
-    // O(n * m)
+    // Time complexity: O(n * m * T1)
+    // Memory complexity: O(n * m * M1)
     //   - n: number of rows
     //   - m: number of columns
+    //   - T1: time complexity of subtracting and assigning two T values
+    //   - M1: memory complexity of creating one T value
+    // e.g. using integer or double values: O(n * m) ; O(n * m)
+
     int n = a.size(), m = a[0].size();
     assert(n == b.size() && m == b[0].size());
 
@@ -74,10 +99,15 @@ matrix<T> operator-(const matrix<T>& a, const matrix<T>& b) {
 
 template <typename T>
 matrix<T> operator*(const matrix<T>& a, const matrix<T>& b) {
-    // O(n * m * o)
+    // Time complexity: O(n * m * o * T1)
+    // Memory complexity: O(n * o * M1)
     //   - n: number of rows of a
     //   - m: number of columns of a (same as number of rows of b)
     //   - o: number of columns of b
+    //   - T1: time complexity of multiplying, adding and assigning two T values
+    //   - M1: memory complexity of creating one T value
+    // e.g. using integer or double values: O(n * m * o) ; O(n * o)
+
     int n = a.size(), m = a[0].size(), o = b[0].size();
     assert(m == b.size());
 
@@ -95,9 +125,14 @@ matrix<T> operator*(const matrix<T>& a, const matrix<T>& b) {
 
 template <typename T>
 matrix<T> transpose(const matrix<T>& a) {
-    // O(n * m)
+    // Time complexity: O(n * m * T1)
+    // Memory complexity: O(n * m * M1)
     //   - n: number of rows
     //   - m: number of columns
+    //   - T1: time complexity of assigning one T value
+    //   - M1: memory complexity of creating one T value
+    // e.g. using integer or double values: O(n * m) ; O(n * m)
+
     matrix<T> ans;
     int n = a.size(), m = a[0].size();
     for (int i = 0; i < m; ++i) {
@@ -113,8 +148,13 @@ template <typename T>
 std::pair<double, std::vector<double>> determinant_and_gauss(
     const matrix<T>& a, const std::vector<T>& result = std::vector<T>()
 ) {
-    // O(n^3)
+    // Time complexity: O(n^3 * T1)
+    // Memory complexity: O(n^2 * M1)
     //   - n: number of rows and columns of a
+    //   - T1: time complexity of subtract, multiply, dividing and assigning two T values
+    //   - M1: memory complexity of creating one T value
+    // e.g. using integer or double values: O(n^3) ; O(n^2)
+
     int n = a.size();
     assert(n == a[0].size() && (result.size() == 0 || result.size() == n));
 
