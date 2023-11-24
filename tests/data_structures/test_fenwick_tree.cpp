@@ -1,4 +1,3 @@
-#include <cassert>
 #include <tuple>
 #include <vector>
 
@@ -25,15 +24,19 @@ void test_sum_queries() {
 
     const std::vector<int> a = {1, 10, 100, 1000, 10000};
     const std::vector<std::pair<int, int>> queries = {{2, 3}, {0, 3}, {2, 5}, {3, 4}, {0, 5}};
-    const std::vector<int> expected = {100, 111, 11100, 1000, 11111};
+    const std::vector<int> expected_results = {100, 111, 11100, 1000, 11111};
 
-    fenwick<int> f = build_fenwick_tree(a);
+    const fenwick<int> f = build_fenwick_tree(a);
     const int Q = (int)queries.size();
     for (int i = 0; i < Q; ++i) {
         const int left = queries[i].first;
         const int right = queries[i].second;
+        const int expected_result = expected_results[i];
+
         const int result = f.query(right) - f.query(left);
-        assert(result == expected[i]);
+
+        CAPTURE_VARS(left, right, result, expected_result);
+        assert(result == expected_result);
     }
 }
 
@@ -59,7 +62,7 @@ void test_xor_mixed_queries_and_updates_1() {
     const std::vector<_xor> a = {_xor{2}, _xor{1}, _xor{1}, _xor{3}, _xor{2}, _xor{3},
                                  _xor{4}, _xor{5}, _xor{6}, _xor{7}, _xor{8}, _xor{9}};
     const std::vector<std::tuple<int, int, int>> queries = {{1, 3, 9}, {2, 5, 6}, {1, 3, 9}};
-    const std::vector<int> expected = {5, 3};
+    const std::vector<int> expected_results = {5, 3};
 
     fenwick<_xor> f = build_fenwick_tree(a);
     const int Q = (int)queries.size();
@@ -69,9 +72,11 @@ void test_xor_mixed_queries_and_updates_1() {
         const int right = std::get<2>(queries[i]);
 
         if (t == 1) {
+            const int expected_result = expected_results[cnt++];
             const int result = f.query(right).val ^ f.query(left).val;
-            assert(result == expected[cnt]);
-            ++cnt;
+
+            CAPTURE_VARS(left, right, result, expected_result);
+            assert(result == expected_result);
         }
         else {
             f.update(left, _xor{right});
@@ -92,7 +97,7 @@ void test_xor_mixed_queries_and_updates_2() {
     const std::vector<_xor> a = {_xor{2}, _xor{1}, _xor{1}, _xor{3}, _xor{2}, _xor{3},
                                  _xor{4}, _xor{5}, _xor{6}, _xor{7}, _xor{8}, _xor{9}};
     const std::vector<std::tuple<int, int, int>> queries = {{1, 0, 10}, {2, 4, 6}, {2, 6, 5}, {2, 9, 1}, {1, 0, 10}};
-    const std::vector<int> expected = {0, 2};
+    const std::vector<int> expected_results = {0, 2};
 
     fenwick<_xor> f = build_fenwick_tree(a);
     const int Q = (int)queries.size();
@@ -102,9 +107,11 @@ void test_xor_mixed_queries_and_updates_2() {
         const int right = std::get<2>(queries[i]);
 
         if (t == 1) {
+            const int expected_result = expected_results[cnt++];
             const int result = f.query(right).val ^ f.query(left).val;
-            assert(result == expected[cnt]);
-            ++cnt;
+
+            CAPTURE_VARS(left, right, result, expected_result);
+            assert(result == expected_result);
         }
         else {
             f.update(left, _xor{right});

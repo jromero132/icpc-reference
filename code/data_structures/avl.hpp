@@ -2,12 +2,22 @@
 //   - Submission: https://judge.yosupo.jp/submission/173664
 
 #include <algorithm>
+#include <cassert>
+#include <functional>
 #include <vector>
 
 template <typename T>
 struct avl {
     // This structure does not accept repeated values.
-    // In case you want to repeat values you can trick it by use a pair and a custom comparator.
+    // In case you want to use another order or comparison, you can create your own structure, i.e. my_int, custom_int
+    //     and define your desire comparison in there. You will need to define == and <, the other 4 comparisons can be
+    //     define with these two. There is an example of this in the tests.
+    //         - not equal (!(==))
+    //         - less than or equal to (< || ==)
+    //         - greater than (a > b == b < a)
+    //         - greater than or equal (!(<))
+    // In case you want to repeat values you can do it defining a pair of <value, cnt> with custom comparator.
+    //     cnt: number of times `value` has been inserted in the structure. You can track this using a map.
 
     struct node {
         T key;
@@ -252,6 +262,13 @@ struct avl {
 
         for (auto v : initial_values) {
             insert(v);
+        }
+    }
+
+    template <typename Iter>
+    avl(Iter first, Iter last) : avl() {
+        for (auto it = first; it != last; ++it) {
+            insert(*it);
         }
     }
 };
