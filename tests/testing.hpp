@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <functional>
 #include <iostream>
+#include <sstream>
 #include <string>
 #include <vector>
 
@@ -10,13 +11,23 @@
 #define assert(condition) ((void)0)
 #else
 #undef assert
-#define assert(condition)                                    \
-    {                                                        \
-        if (!(condition)) {                                  \
-            testing::CURRENT_FUNC_FAILS.push_back(__LINE__); \
-        }                                                    \
+#define assert(condition)                                                                                            \
+    {                                                                                                                \
+        if (!(condition)) {                                                                                          \
+            testing::CURRENT_FUNC_FAILS.push_back(__LINE__);                                                         \
+            std::stringstream text;                                                                                  \
+            text << "[Line " << __LINE__ << "] Condition failed: " << #condition;                                    \
+            testing::CAPTURED_VARS.reserve(testing::CAPTURED_VARS.size() + testing::TEMP_CAPTURED_VARS.size());      \
+            testing::CAPTURED_VARS.insert(                                                                           \
+                testing::CAPTURED_VARS.end(), testing::TEMP_CAPTURED_VARS.begin(), testing::TEMP_CAPTURED_VARS.end() \
+            );                                                                                                       \
+            testing::CAPTURED_VARS.push_back(text.str());                                                            \
+        }                                                                                                            \
+        testing::TEMP_CAPTURED_VARS.clear();                                                                         \
     }
 #endif
+
+#define CAPTURE_VARS(...) testing::capture_vars(__FILE__, __func__, __LINE__, #__VA_ARGS__, __VA_ARGS__)
 
 namespace testing {
     namespace colors {
@@ -28,14 +39,14 @@ namespace testing {
 
     static std::string CURRENT_FUNC_NAME = "";
     static std::vector<int> CURRENT_FUNC_FAILS;
+    static std::vector<std::string> CAPTURED_VARS, TEMP_CAPTURED_VARS;
     static bool FAIL_ANYWAYS;
 
     int test(std::function<void()> func) {
-        CURRENT_FUNC_FAILS = {};
         try {
             func();
         }
-        catch (const std::exception &e) {
+        catch (const std::exception& e) {
         }
 
         std::cout << "  " << colors::COLOR_CYAN << "•" << colors::NO_COLOR << " " << CURRENT_FUNC_NAME << " [";
@@ -57,6 +68,11 @@ namespace testing {
                 std::cout << ")";
             }
             std::cout << std::endl;
+
+            for (auto captured_var : CAPTURED_VARS) {
+                std::cout << "    " << colors::COLOR_RED << "-" << colors::NO_COLOR << " " << captured_var << std::endl;
+            }
+
             return 1;
         }
         else {
@@ -82,11 +98,53 @@ namespace testing {
         };
     }
 
+    void setup_test() {
+        CURRENT_FUNC_FAILS = {};
+        CAPTURED_VARS = TEMP_CAPTURED_VARS = {};
+        FAIL_ANYWAYS = false;
+    }
+
     int run_tests(std::vector<std::function<void()>> funcs) {
         int exit_code = 0;
         for (auto func : funcs) {
+            setup_test();
             exit_code |= test(func);
         }
         return exit_code;
+    }
+
+    template <typename T>
+    std::stringstream capture_var(const std::string& name, const T& arg) {
+        std::stringstream ss;
+        ss << name << " = " << arg;
+        return ss;
+    }
+
+    template <typename T1, typename... T2>
+    std::stringstream capture_var(const std::string& names, const T1& arg, const T2&... args) {
+        std::stringstream ss;
+        ss << names.substr(0, names.find(',')) << " = " << arg << " ; ";
+        ss << capture_var(names.substr(names.find(',') + 2), args...).str();
+        return ss;
+    }
+
+    template <typename T1, typename... T2>
+    void capture_vars(
+        const std::string& filename, const std::string& func, const int line, const std::string& names, const T1& arg,
+        const T2&... args
+    ) {
+        std::stringstream ss;
+        ss << "[Line " << line << "] " << capture_var(names, arg, args...).str();
+        TEMP_CAPTURED_VARS.push_back(ss.str());
+    }
+
+    template <typename T>
+    std::ostream& operator<<(std::ostream& os, const std::vector<T>& v) {
+        os << "[";
+        for (int i = 0; i < v.size(); ++i) {
+            os << (i > 0 ? ", " : "") << v[i];
+        }
+        os << "]";
+        return os;
     }
 }  // namespace testing

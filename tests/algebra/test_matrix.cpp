@@ -1,6 +1,5 @@
 #include <stdbool.h>
 
-#include <cassert>
 #include <cmath>
 #include <vector>
 
@@ -37,7 +36,11 @@ void test_null_matrix() {
     for (auto dim : dims) {
         int n = dim[0], m = dim[1];
         matrix<int> a = null_matrix<int>(n, m);
+
+        CAPTURE_VARS(n, m, a);
         assert(a.size() == n && a[0].size() == m);
+        CAPTURE_VARS(n, m, a);
+
         for (int i = 0; i < n; ++i) {
             for (int j = 0; j < m; ++j) {
                 assert(a[i][j] == 0);
@@ -60,7 +63,10 @@ void test_identity_matrix() {
                 a = identity_matrix<int>(a);
             }
 
+            CAPTURE_VARS(n, a);
             assert(a.size() == n && a[0].size() == n);
+            CAPTURE_VARS(n, a);
+
             for (int i = 0; i < n; ++i) {
                 for (int j = 0; j < n; ++j) {
                     assert(a[i][j] == (i == j));
@@ -81,6 +87,8 @@ void test_sum_matrix_1() {
     matrix<int> expected_matrix = {{10}};
 
     matrix<int> m_result = m1 + m2 + m3 + m4;
+
+    CAPTURE_VARS(m1, m2, m3, m4, m_result, expected_matrix);
     assert(m_result == expected_matrix);
 }
 
@@ -99,6 +107,8 @@ void test_sum_matrix_2() {
 
     matrix<int> m_result = m1 + m2;
     m_result = m3 + m_result;
+
+    CAPTURE_VARS(m1, m2, m3, m_result, expected_matrix);
     assert(m_result == expected_matrix);
 }
 
@@ -113,6 +123,8 @@ void test_sub_matrix_1() {
     matrix<int> expected_matrix = {{4}};
 
     matrix<int> m_result = m1 + m2 - m3 + m4;
+
+    CAPTURE_VARS(m1, m2, m3, m4, m_result, expected_matrix);
     assert(m_result == expected_matrix);
 }
 
@@ -131,6 +143,8 @@ void test_sub_matrix_2() {
 
     matrix<int> m_result = m1 + m2;
     m_result = m3 - m_result;
+
+    CAPTURE_VARS(m1, m2, m3, m_result, expected_matrix);
     assert(m_result == expected_matrix);
 }
 
@@ -144,6 +158,8 @@ void test_mul_matrixes_1() {
     matrix<int> expected_matrix = {{1}};
 
     matrix<int> m_result = m1 * m2 * m3;
+
+    CAPTURE_VARS(m1, m2, m3, m_result, expected_matrix);
     assert(m_result == expected_matrix);
 }
 
@@ -157,6 +173,8 @@ void test_mul_matrixes_2() {
     matrix<int> expected_matrix = {{41869, 24593}, {94924, 62852}};
 
     matrix<int> m_result = m1 * m2 * m3;
+
+    CAPTURE_VARS(m1, m2, m3, m_result, expected_matrix);
     assert(m_result == expected_matrix);
 }
 
@@ -167,8 +185,11 @@ void test_transpose() {
     vector<matrix<int>> expected_matrixes = {{{1}}, {{1, 3}, {2, 4}}, {{13}, {132}}, {{13, 132}}};
 
     for (int i = 0; i < matrixes.size(); ++i) {
-        matrix<int> m_transpose = transpose(matrixes[i]);
+        matrix<int> m = matrixes[i];
+        matrix<int> m_transpose = transpose(m);
         matrix<int> expected_matrix = expected_matrixes[i];
+
+        CAPTURE_VARS(m, m_transpose, expected_matrix);
         assert(m_transpose == expected_matrix);
     }
 }
@@ -188,10 +209,18 @@ void test_determinant_and_gauss() {
     vector<vector<double>> expected_solutions = {{}, {}, {-1, 1}, {0.0336042266376, 0.0041028926490, 0.0107816120199}};
 
     for (int i = 0; i < matrixes.size(); ++i) {
-        pair<double, vector<double>> tmp = determinant_and_gauss(matrixes[i], solutions[i]);
+        matrix<int> m = matrixes[i];
+        vector<int> solution = solutions[i];
+        double expected_determinant = expected_determinants[i];
+        vector<double> expected_solution = expected_solutions[i];
+
+        pair<double, vector<double>> tmp = determinant_and_gauss(m, solution);
         double det = tmp.first;
         vector<double> sol = tmp.second;
-        assert(fabs(det - expected_determinants[i]) < MATRIX_EPS && sol.size() == expected_solutions[i].size());
+
+        CAPTURE_VARS(m, solution, det, expected_determinant, MATRIX_EPS, sol, expected_solution);
+        assert(fabs(det - expected_determinant) < MATRIX_EPS && sol.size() == expected_solution.size());
+        CAPTURE_VARS(m, solution, det, expected_determinant, MATRIX_EPS, sol, expected_solution);
 
         for (int j = 0; j < sol.size(); ++j) {
             assert(fabs(sol[j] - expected_solutions[i][j]) < MATRIX_EPS);

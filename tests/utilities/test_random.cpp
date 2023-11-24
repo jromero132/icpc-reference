@@ -1,4 +1,3 @@
-#include <cassert>
 #include <vector>
 
 #include "code/utilities/random.hpp"
@@ -23,6 +22,7 @@ void test_monobit() {
 
     const double Sobs = abs(Sn) / sqrt(N);       // Sobs = |Sn| / sqrt(N)
     const double Pvalue = erfc(Sobs / sqrt(2));  // Pvalue = erfc(Sobs / sqrt(2))
+    CAPTURE_VARS(N, Sn, Sobs, Pvalue, expected);
     assert(Pvalue >= expected);
 }
 
@@ -45,6 +45,8 @@ void test_interval() {
         const double diff = results[i] - expected_frequency;
         chi_square += diff * diff / expected_frequency;
     }
+
+    CAPTURE_VARS(degrees_of_freedom, N, initial_value, results, expected_frequency, chi_square, expected_chi_square);
     assert(chi_square <= expected_chi_square);
 }
 
@@ -64,6 +66,8 @@ void test_expected_number() {
     for (int i = 0; i < N; ++i) sum += randint(range_left, range_right);
 
     const double result = sum / N;
+
+    CAPTURE_VARS(N, limit, confidence, range, range_left, range_right, sum, result, expected);
     assert(expected * confidence <= result && result <= expected * (2 - confidence));
 }
 
@@ -82,12 +86,14 @@ void test_average_distance() {
     double distance_sum = 0;
     for (int i = 0; i < N; ++i) distance_sum += abs(permutation[i] - i);
     distance_sum /= N;
+
+    CAPTURE_VARS(N, permutation, confidence, distance_sum, expected);
     assert(expected * confidence <= distance_sum && distance_sum <= expected * (2 - confidence));
 }
 
 int main() {
     return testing::run_tests(
-        {testing::at_least_n_of_m(test_monobit, 5), testing::at_least_n_of_m(test_interval, 5),
+        {testing::at_least_n_of_m(test_monobit, 5, 2), testing::at_least_n_of_m(test_interval, 5),
          testing::at_least_n_of_m(test_expected_number, 5), testing::at_least_n_of_m(test_average_distance, 5)}
     );
 }

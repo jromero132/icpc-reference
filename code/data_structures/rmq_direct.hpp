@@ -22,7 +22,7 @@ struct rmq_direct {  // 0-based
           Masks(n) {
         // Time complexity: O(n * max(T1, T2))
         // Memory complexity: O(n)
-        //   - T1: time complexity of argmin function
+        //   - T1: time complexity of arg_min function
         //   - T2: time complexity of comparing two data values
         //   - n: number of elements in the range [first, last)
         // e.g. using integer or double values: O(n) ; O(n)
@@ -36,7 +36,7 @@ struct rmq_direct {  // 0-based
         for (int m, mh = 1; (m = mh << 1) <= TotalBlocks; mh = m) {
             auto next_lvl = next(cur_lvl, TotalBlocks);
             for (int i = 0; i + mh < TotalBlocks; ++i) {
-                next_lvl[i] = argmin(cur_lvl[i], cur_lvl[i + mh], first);
+                next_lvl[i] = arg_min(cur_lvl[i], cur_lvl[i + mh], first);
             }
             cur_lvl = next_lvl;
         }
@@ -62,21 +62,21 @@ struct rmq_direct {  // 0-based
     int operator()(int l, int r, const Iter& data) const {  // [l, r) and returns the position in data
         // Time complexity: O(max(T1, T2))
         // Memory complexity: O(1)
-        //   - T1: time complexity of argmin function
+        //   - T1: time complexity of arg_min function
         //   - T2: time complexity of in_block_query_function
         // This values are insignificant, so basically O(1)
 
         int x = l / BlockSize, y = --r / BlockSize, z = y - x;
         if (z == 0) return in_block_query(x, l, r);
         if (z == 1)
-            return argmin(
+            return arg_min(
                 in_block_query(x, l, x * BlockSize + BlockSize - 1), in_block_query(y, y * BlockSize, r), data
             );
         z = std::__lg(z - 1);
-        return argmin(
-            argmin(
+        return arg_min(
+            arg_min(
                 in_block_query(x, l, x * BlockSize + BlockSize - 1),
-                argmin(BlocksRMQ[TotalBlocks * z + x + 1], BlocksRMQ[TotalBlocks * z + y - (1 << z)], data), data
+                arg_min(BlocksRMQ[TotalBlocks * z + x + 1], BlocksRMQ[TotalBlocks * z + y - (1 << z)], data), data
             ),
             in_block_query(y, y * BlockSize, r), data
         );
@@ -91,7 +91,7 @@ struct rmq_direct {  // 0-based
     std::vector<int> Masks;
 
     template <typename Iter>
-    inline int argmin(int x, int y, const Iter& data) const {
+    inline int arg_min(int x, int y, const Iter& data) const {
         // Time complexity: O(T1)
         // Memory complexity: O(1)
         //   - T1: time complexity of comparing two data values
@@ -103,12 +103,12 @@ struct rmq_direct {  // 0-based
     int in_block_query(int block, int l, int r) const {
         // Time complexity: O(log(L))
         // Memory complexity: O(1)
-        //   - L: max possible value for the lowest bit set in rmask. This value is insignificant, so basically O(1)
+        //   - L: max possible value for the lowest bit set in r_mask. This value is insignificant, so basically O(1)
 
-        int rmask = Masks[r], pos = l - BlockSize * block;
-        if (pos >= 1) rmask &= ~((1 << pos) - 1);
-        if (rmask == 0) return r;
-        int ret = std::__lg(lowest_one(rmask));
+        int r_mask = Masks[r], pos = l - BlockSize * block;
+        if (pos >= 1) r_mask &= ~((1 << pos) - 1);
+        if (r_mask == 0) return r;
+        int ret = std::__lg(lowest_one(r_mask));
         return ret + block * BlockSize;
     }
 
