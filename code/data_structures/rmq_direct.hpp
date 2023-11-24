@@ -45,7 +45,7 @@ struct rmq_direct {  // 0-based
             while (!deq.empty() && deq.front() < i) {
                 deq.pop_front();
             }
-            int end = std::min(n, i + BlockSize);
+            const int end = std::min(n, i + BlockSize);
             for (int j = i; j < end; ++j) {
                 while (!deq.empty() && comp(first[j], first[deq.back()])) {
                     deq.pop_back();
@@ -66,7 +66,9 @@ struct rmq_direct {  // 0-based
         //   - T2: time complexity of in_block_query_function
         // This values are insignificant, so basically O(1)
 
-        int x = l / BlockSize, y = --r / BlockSize, z = y - x;
+        const int x = l / BlockSize, y = --r / BlockSize;
+        int z = y - x;
+
         if (z == 0) return in_block_query(x, l, r);
         if (z == 1)
             return arg_min(
@@ -108,7 +110,7 @@ struct rmq_direct {  // 0-based
         int r_mask = Masks[r], pos = l - BlockSize * block;
         if (pos >= 1) r_mask &= ~((1 << pos) - 1);
         if (r_mask == 0) return r;
-        int ret = std::__lg(lowest_one(r_mask));
+        const int ret = std::__lg(lowest_one(r_mask));
         return ret + block * BlockSize;
     }
 

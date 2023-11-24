@@ -22,6 +22,7 @@ void test_monobit() {
 
     const double Sobs = abs(Sn) / sqrt(N);       // Sobs = |Sn| / sqrt(N)
     const double Pvalue = erfc(Sobs / sqrt(2));  // Pvalue = erfc(Sobs / sqrt(2))
+
     CAPTURE_VARS(N, Sn, Sobs, Pvalue, expected);
     assert(Pvalue >= expected);
 }

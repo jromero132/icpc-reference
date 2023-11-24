@@ -2,7 +2,7 @@
 
 template <typename T>
 T pow(
-    T base, int exp, std::function<T(const T&)> identity = [](const T& x) { return 1; }
+    T base, int exp, const std::function<T(const T&)>& identity = [](const T& x) { return 1; }
 ) {
     // Time complexity: O(max(T1, T2 * log(exp)))
     // Memory complexity: O(M1)
@@ -21,7 +21,7 @@ T pow(
 
 template <typename T>
 T pow(
-    T base, int exp, T mod, std::function<T(const T&)> identity = [](const T& x) { return 1; }
+    T base, int exp, T mod, const std::function<T(const T&)>& identity = [](const T& x) { return 1; }
 ) {
     // Time complexity: O(max(T1, T2 * log(exp)))
     // Memory complexity: O(M1)
