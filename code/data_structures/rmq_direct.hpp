@@ -16,7 +16,7 @@ struct rmq_direct {  // 0-based
     rmq_direct(Iter first, Iter last, const Compare& comp = Compare())
         : n(distance(first, last)),
           comp(comp),
-          BlockSize(32),  // BlockSize(max(static_cast<int>(1),std::__lg(n))),
+          BlockSize(std::max(static_cast<int>(1), std::__lg(n))),
           TotalBlocks((n + BlockSize - 1) / BlockSize),
           BlocksRMQ((std::__lg(TotalBlocks) + 1) * TotalBlocks),
           Masks(n) {
