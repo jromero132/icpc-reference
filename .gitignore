@@ -1,0 +1,24 @@
+# ==========================================
+# Compiled Binaries & Executables
+# ==========================================
+*.exe
+*.o
+*.obj
+*.out
+*.app
+
+# ==========================================
+# VS Code Intellisense & Performance Caches
+# ==========================================
+.vscode/ipch/
+.vscode/.data/
+.vscode/*.db
+.vscode/*.db-wal
+.vscode/*.db-shm
+
+# ==========================================
+# Operating System Garbage Files
+# ==========================================
+Thumbs.db
+Desktop.ini
+.DS_Store
