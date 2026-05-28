@@ -1,0 +1,68 @@
+{
+    // Editor settings
+    "editor.formatOnPaste": true,
+    "editor.formatOnSave": true,
+    "editor.rulers": [
+        120
+    ],
+    // Files settings
+    "files.associations": {
+        "*.in": "plaintext",
+        "*.out": "plaintext"
+    },
+    "files.insertFinalNewline": true,
+    "files.trimTrailingWhitespace": true,
+    // Git options
+    "git.autorefresh": true,
+    // Code Spell settings
+    "cSpell.ignoreWords": [
+    ],
+    "cSpell.words": [
+        "fenwick",
+        "jromero132"
+    ],
+    "editor.indentSize": "tabSize",
+    "editor.tabSize": 2,
+    // Indent Rainbow settings
+    "indentRainbow.colors": [
+        "rgba(200, 32, 200, 0.35)",
+        "rgba(16, 140, 140, 0.35)",
+        "rgba(32, 200, 32, 0.35)",
+        "rgba(200, 200, 16, 0.35)"
+    ],
+    "indentRainbow.indicatorStyle": "light",
+    "indentRainbow.lightIndicatorStyleLineWidth": 2,
+    "terminal.integrated.automationProfile.windows": {
+        "path": "C:\\Windows\\System32\\cmd.exe",
+        "args": []
+    },
+    // Markdown settings & extensions
+    "[markdown]": {
+        "editor.codeActionsOnSave": {
+            "source.fixAll.markdownlint": "explicit"
+        },
+        "editor.tabSize": 4,
+        "files.trimTrailingWhitespace": false
+    },
+    "markdownlint.config": {
+        "MD003": {
+            "style": "atx" // E.g.: # Header
+        },
+        "MD007": {
+            "indent": 4
+        },
+        "MD010": {
+            "spaces_per_tab": 4
+        },
+        "MD013": {
+            "line_length": 120
+        }
+    },
+    "[cpp]": {
+        "editor.defaultFormatter": "ms-vscode.cpptools",
+        "editor.tabSize": 2,
+        "editor.insertSpaces": true
+    },
+    "C_Cpp.clang_format_fallbackStyle": "Google",
+    "C_Cpp.clang_format_style": "{ BasedOnStyle: Google, AccessModifierOffset: -4, DerivePointerAlignment: false, PointerAlignment: Left, AllowShortFunctionsOnASingleLine: Inline }"
+}
