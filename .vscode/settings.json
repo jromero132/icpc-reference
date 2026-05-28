@@ -10,6 +10,7 @@
         "*.in": "plaintext",
         "*.out": "plaintext"
     },
+    "files.eol": "\n",
     "files.insertFinalNewline": true,
     "files.trimTrailingWhitespace": true,
     // Git options
@@ -32,10 +33,6 @@
     ],
     "indentRainbow.indicatorStyle": "light",
     "indentRainbow.lightIndicatorStyleLineWidth": 2,
-    "terminal.integrated.automationProfile.windows": {
-        "path": "C:\\Windows\\System32\\cmd.exe",
-        "args": []
-    },
     // Markdown settings & extensions
     "[markdown]": {
         "editor.codeActionsOnSave": {
