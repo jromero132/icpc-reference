@@ -6,7 +6,6 @@
 // @space      $O(N)$
 // =============================================================================
 
-#include <iostream>
 #include <vector>
 
 template <typename T>
@@ -35,6 +34,7 @@ struct fenwick {  // 1-index
 };
 
 #ifdef LOCAL
+#include <iostream>
 using namespace std;
 
 int main() {
