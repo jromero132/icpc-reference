@@ -40,10 +40,23 @@ using namespace std;
 int main() {
   fenwick<long long> ft(10);
   ft.update(3, 5);
-  ft.update(5, 10);
+  const int expected_sum_1 = 5;
+  const int result_1 = ft.query(5);
+  cout << "Prefix sum up to 5: " << result_1;
+  cout << " (Expected: " << expected_sum_1 << ")";
+  if (result_1 != expected_sum_1) {
+    cout << " [ERROR]";
+  }
+  cout << endl;
 
-  cout << "Prefix sum up to 5: " << ft.query(5) << " (Expected: 15)" << endl;
-  cout << "Range sum [4, 5]: " << ft.query(4, 5) << " (Expected: 10)" << endl;
+  ft.update(5, 10);
+  const int expected_sum_2 = 10;
+  const int result_2 = ft.query(4, 5);
+  cout << "Range sum [4, 5]: " << result_2 << " (Expected: " << expected_sum_2 << ")" << endl;
+  if (result_2 != expected_sum_2) {
+    cout << " [ERROR]";
+  }
+  cout << endl;
   return 0;
 }
 #endif

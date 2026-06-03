@@ -31,8 +31,7 @@ TEST_SUITE("AVL Tree Suite") {
     SUBCASE("Unique Insertions and Searches") {
       tree.insert(5);
       tree.insert(15);
-      tree.insert(
-          5);  // Duplicate item entry testing (should be safely ignored)
+      tree.insert(5);  // Duplicate item entry testing (should be safely ignored)
 
       CHECK(tree.find(5) == true);
       CHECK(tree.find(15) == true);

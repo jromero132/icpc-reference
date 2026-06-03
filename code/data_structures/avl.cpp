@@ -179,11 +179,13 @@ int main() {
     cout << " " << x;
   }
   cout << endl;
+
   cout << "In-order traversal:";
   for (int x : tree.in_order()) {
     cout << " " << x;
   }
   cout << endl;
+
   cout << "Element at rank 1 (0-indexed): " << tree.kth(1, 0);
   cout << " (Expected: 10)" << endl;
   return 0;

@@ -3,7 +3,7 @@
     "editor.formatOnPaste": true,
     "editor.formatOnSave": true,
     "editor.rulers": [
-        120
+        100
     ],
     // Files settings
     "files.associations": {
@@ -52,7 +52,7 @@
             "spaces_per_tab": 4
         },
         "MD013": {
-            "line_length": 120
+            "line_length": 100
         }
     },
     "[cpp]": {
@@ -61,5 +61,5 @@
         "editor.insertSpaces": true
     },
     "C_Cpp.clang_format_fallbackStyle": "Google",
-    "C_Cpp.clang_format_style": "{ BasedOnStyle: Google, AccessModifierOffset: -4, DerivePointerAlignment: false, PointerAlignment: Left, AllowShortFunctionsOnASingleLine: Inline }"
+    "C_Cpp.clang_format_style": "{ BasedOnStyle: Google, AccessModifierOffset: -4, DerivePointerAlignment: false, PointerAlignment: Left, AllowShortFunctionsOnASingleLine: Inline, ColumnLimit: 100, ReflowComments: true, PenaltyExcessCharacter: 10, PenaltyBreakComment: 0 }"
 }
