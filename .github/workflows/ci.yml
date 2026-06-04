@@ -1,0 +1,102 @@
+name: Tests
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Clone Repository Workspace
+      uses: actions/checkout@v4
+
+    - name: Dynamically Discover and Execute Reference Tests (C++11)
+      run: |
+        echo "================================================================="
+        echo "          STARTING AUTOMATED REFERENCE MATRIX TEST RUN           "
+        echo "================================================================="
+
+        GLOBAL_FAILURE=0
+
+        # 1. Dynamically iterate over every subfolder inside the tests/ directory
+        for dir in tests/*/; do
+          # Secure checkpoint: Ensure path resolves to an active directory
+          [ -d "$dir" ] || continue
+
+          folder_name=$(basename "$dir")
+
+          echo ""
+          echo "================================================================="
+          echo " ENTERING TEST SUITE FOLDER: [ $folder_name ]"
+          echo "================================================================="
+
+          # Initialize directory level tracking counters
+          FOLDER_TOTAL=0
+          FOLDER_PASSED=0
+          FOLDER_FAILED=0
+
+          # 2. Iterate over all C++ files inside the discovered folder path
+          for test_file in "$dir"*.cpp; do
+            [ -e "$test_file" ] || continue
+
+            filename=$(basename "$test_file")
+
+            # Explicitly bypass structural test runner aggregation files
+            if [ "$filename" = "test_all.cpp" ]; then
+              echo "--> Skipping system architecture file: $filename"
+              continue
+            fi
+
+            filename_no_ext="${filename%.cpp}"
+            FOLDER_TOTAL=$((FOLDER_TOTAL + 1))
+
+            echo "---------------------------------------------------------------------"
+            echo "Compiling Element: $filename via strict C++11 standards..."
+
+            # -DDOCTEST_CONFIG_IMPLEMENT_WITH_MAIN injects the framework main and engine structures
+            if g++ -std=c++11 -O2 -DDOCTEST_CONFIG_IMPLEMENT_WITH_MAIN "$test_file" -o "${filename_no_ext}_runner"; then
+
+              # Run test target binary implementation
+              if ./"${filename_no_ext}_runner"; then
+                echo ">>> FILE RESULT [ $filename ]: SUCCESS"
+                FOLDER_PASSED=$((FOLDER_PASSED + 1))
+              else
+                echo ">>> FILE RESULT [ $filename ]: ASSERTION FAILED"
+                FOLDER_FAILED=$((FOLDER_FAILED + 1))
+                GLOBAL_FAILURE=1
+              fi
+
+              rm "${filename_no_ext}_runner"
+            else
+              echo ">>> FILE RESULT [ $filename ]: COMPILATION ERROR"
+              FOLDER_FAILED=$((FOLDER_FAILED + 1))
+              GLOBAL_FAILURE=1
+            fi
+          done
+
+          # 3. Print out consolidated summary matrices per individual folder suite
+          echo "================================================================="
+          echo " STATS FOR SUITE FOLDER [ $folder_name ]:"
+          echo "  • Total Test Files Found  : $FOLDER_TOTAL"
+          echo "  • Passed Files Count       : $FOLDER_PASSED"
+          echo "  • Failed/Errored Files     : $FOLDER_FAILED"
+          echo "================================================================="
+          echo ""
+        done
+
+        echo "================================================================="
+        echo "                      FINAL ENGINE EVALUATION                    "
+        echo "================================================================="
+        if [ $GLOBAL_FAILURE -ne 0 ]; then
+          echo " STATUS: FAIL | Deficiencies detected inside the reference system."
+          echo "================================================================="
+          exit 1
+        else
+          echo " STATUS: SUCCESS | All notebook code validation pathways verified."
+          echo "================================================================="
+          exit 0
+        fi
