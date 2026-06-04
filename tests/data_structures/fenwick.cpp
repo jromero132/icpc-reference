@@ -1,3 +1,11 @@
+// =============================================================================
+// @author     Jose A. Romero (jromero132)
+// @unit_test  Fenwick Tree (Binary Indexed Tree) Test Suite
+// @docs       Verifies 1-indexed point updates, cumulative prefix sums, range
+//             sum extraction [l, r], and behavior under maximum capacity
+//             limits.
+// =============================================================================
+
 #include "../../code/data_structures/fenwick.cpp"
 
 #include <climits>

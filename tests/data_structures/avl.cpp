@@ -1,3 +1,12 @@
+// =============================================================================
+// @author     Jose A. Romero (jromero132)
+// @unit_test  AVL Tree Test Suite
+// @docs       Validates logarithmic self-balancing cycles (LL, RR, LR, RL
+//             rotations), duplicate key rejection, order statistics queries
+//             (kth element & order_of_key), and custom object comparison
+//             safety.
+// =============================================================================
+
 #include "../../code/data_structures/avl.cpp"
 
 #include <string>

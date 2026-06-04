@@ -1,3 +1,11 @@
+// =============================================================================
+// @author     Jose A. Romero (jromero132)
+// @unit_test  Direct Range Minimum Query (Fischer-Heun) Test Suite
+// @docs       Validates constant-time O(1) minimum lookups across micro-ranges,
+//             intra-block boundaries, inter-block crossings, and custom
+//             inverted functor logic (Range Maximum Queries).
+// =============================================================================
+
 #include "../../code/data_structures/rmq_direct.cpp"
 
 #include <string>
