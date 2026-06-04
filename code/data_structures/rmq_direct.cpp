@@ -56,6 +56,7 @@ struct rmq_direct {  // 0-based
     }
   }
 
+  // Returns the position of the minimum element in the range [l, r) of the input data.
   template <typename Iter>
   int operator()(int l, int r, const Iter& data) const {  // [l, r) and returns the position in data
     const int x = l / BlockSize, y = --r / BlockSize;

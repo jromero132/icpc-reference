@@ -9,4 +9,5 @@
 #include "avl.cpp"
 #include "fenwick.cpp"
 #include "hash_table.cpp"
+#include "monotonic_queue.cpp"
 #include "rmq_direct.cpp"

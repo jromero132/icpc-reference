@@ -19,6 +19,7 @@ struct hash_table {
 
   hash_table() : f(-1), p(-1), c(0), table(N), value(N), link(N), last(MOD, -1) {}
 
+  // Returns a pointer to the value associated with the given hash key, or nullptr
   T* find(H hash) {
     const int idx = get_idx(hash);
     for (f = -1, p = last[idx]; p != -1; f = p, p = link[p]) {
@@ -27,6 +28,7 @@ struct hash_table {
     return nullptr;
   }
 
+  // Inserts or updates the value associated with the given hash key.
   void set(H hash, T val) {
     if (find(hash) != nullptr) {
       value[p] = val;
