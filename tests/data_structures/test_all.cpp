@@ -10,4 +10,5 @@
 #include "fenwick.cpp"
 #include "hash_table.cpp"
 #include "monotonic_queue.cpp"
+#include "order_statistic.cpp"
 #include "rmq_direct.cpp"

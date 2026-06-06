@@ -17,6 +17,7 @@
     "git.autorefresh": true,
     // Code Spell settings
     "cSpell.ignoreWords": [
+        "pbds"
     ],
     "cSpell.words": [
         "fenwick",
