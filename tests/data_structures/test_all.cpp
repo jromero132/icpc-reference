@@ -11,4 +11,5 @@
 #include "hash_table.cpp"
 #include "monotonic_queue.cpp"
 #include "order_statistic.cpp"
+#include "persistent_treap.cpp"
 #include "rmq_direct.cpp"
