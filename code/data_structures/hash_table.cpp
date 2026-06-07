@@ -69,7 +69,7 @@ struct hash_table {
 using namespace std;
 
 int main() {
-  hash_table<int, std::string> ht;
+  hash_table<int, string> ht;
   pair<int, string> test_cases[] = {{42, "Answer"},
                                     {-42, "Negative Key Safe"},
                                     {1000000000, "Large Positive Key"},

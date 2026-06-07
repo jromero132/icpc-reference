@@ -192,7 +192,7 @@ int main() {
   cout << "Version 3 Size? Expected: 3 | Found: " << t.size(v3);
   cout << (t.size(v3) != 3 ? " [ERROR]" : "") << endl;
 
-  cout << "\n--- Testing Order Statistics (1-based kth) on Version 3 ---" << endl;
+  cout << endl << "--- Testing Order Statistics (1-based kth) on Version 3 ---" << endl;
   auto k1 = t.kth(v3, 1);
   auto k2 = t.kth(v3, 2);
   auto k3 = t.kth(v3, 3);
@@ -204,7 +204,7 @@ int main() {
   cout << "3rd smallest? Expected: 20 | Found: " << (k3 ? k3->key : -1);
   cout << (!k3 || k3->key != 20 ? " [ERROR]" : "") << endl;
 
-  cout << "\n--- Testing Alternative Split-Merge Erase (Version 4) ---" << endl;
+  cout << endl << "--- Testing Alternative Split-Merge Erase (Version 4) ---" << endl;
   // Version 4: Erase element 10 from Version 3 using erase2
   treap<int>::node* v4 = t.erase2(v3, 10);
   cout << "Version 4 Size? Expected: 2 | Found: " << t.size(v4);

@@ -83,7 +83,7 @@ int main() {
     int expected_order;
   } order_cases[] = {{5, 0}, {10, 1}, {15, 2}, {20, 2}, {25, 3}};
 
-  cout << "\n--- Testing order_of_key(x) [Elements strictly < x] ---" << endl;
+  cout << endl << "--- Testing order_of_key(x) [Elements strictly < x] ---" << endl;
   for (const auto& tc : order_cases) {
     int res = oss.order_of_key(tc.query);
     cout << "Key: " << tc.query << " | Expected Order: " << tc.expected_order;
@@ -97,7 +97,7 @@ int main() {
     int expected_val;
   } kth_cases[] = {{0, 5}, {1, 10}, {2, 20}};
 
-  cout << "\n--- Testing find_by_order(k) [Locating element by 0-based rank] ---" << endl;
+  cout << endl << "--- Testing find_by_order(k) [Locating element by 0-based rank] ---" << endl;
   for (const auto& tc : kth_cases) {
     auto it = oss.find_by_order(tc.index);
     if (it == oss.end()) {
@@ -112,7 +112,7 @@ int main() {
     }
   }
 
-  cout << "\n--- Testing Element Search & Erase Hooks ---" << endl;
+  cout << endl << "--- Testing Element Search & Erase Hooks ---" << endl;
   auto find_it = oss.find(10);
   cout << "Find 10? Expected: Yes | Found: ";
   cout << (find_it != oss.end() ? "Yes" : "No [ERROR]") << endl;
@@ -127,7 +127,7 @@ int main() {
   // ---------------------------------------------------------------------------
   // 2. Testing heap (Priority Queue) and Joining Capabilities
   // ---------------------------------------------------------------------------
-  cout << "\n--- Testing heap (PBDS Priority Queue) & Join Methods ---" << endl;
+  cout << endl << "--- Testing heap (PBDS Priority Queue) & Join Methods ---" << endl;
   heap<int> h1;
   heap<int> h2;
 

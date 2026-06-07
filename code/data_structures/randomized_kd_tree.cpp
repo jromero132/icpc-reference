@@ -238,7 +238,7 @@ struct randomized_kd_tree {
 using namespace std;
 
 int main() {
-  std::srand(1337);  // Seed for reproducible tests
+  srand(1337);  // Seed for reproducible tests
 
   cout << "--- Testing 2D Spatial Layout Tree Invariants ---" << endl;
   {
@@ -249,8 +249,8 @@ int main() {
     cout << (tree.size() != 0 ? " [ERROR]" : "") << endl;
 
     // Test Case: Static Build Verification
-    std::vector<point<2>> points = {{2.0, 3.0}, {5.0, 4.0}, {9.0, 6.0},
-                                    {4.0, 7.0}, {8.0, 1.0}, {7.0, 2.0}};
+    vector<point<2>> points = {{2.0, 3.0}, {5.0, 4.0}, {9.0, 6.0},
+                               {4.0, 7.0}, {8.0, 1.0}, {7.0, 2.0}};
     tree.build(points);
 
     cout << "Size after static build? Expected: 6 | Found: " << tree.size();
@@ -290,11 +290,11 @@ int main() {
     cout << (!(result4 == point<2>{2.0, 3.0}) ? " [ERROR]" : "") << endl;
   }
 
-  cout << "\n--- Testing 3D Spatial Generalization Tree Invariants ---" << endl;
+  cout << endl << "--- Testing 3D Spatial Generalization Tree Invariants ---" << endl;
   {
     randomized_kd_tree<3> tree3d;
 
-    std::vector<point<3>> points3d = {{1.0, 1.0, 1.0}, {10.0, 10.0, 10.0}, {5.0, 5.0, 5.0}};
+    vector<point<3>> points3d = {{1.0, 1.0, 1.0}, {10.0, 10.0, 10.0}, {5.0, 5.0, 5.0}};
     tree3d.build(points3d);
 
     cout << "3D Size after build? Expected: 3 | Found: " << tree3d.size();

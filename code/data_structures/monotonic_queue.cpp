@@ -55,7 +55,7 @@ int main() {
     long long expected;
   };
 
-  monotonic_queue<long long, std::greater<long long>> min_q;
+  monotonic_queue<long long, greater<long long>> min_q;
 
   TestStep tests[] = {
       {'A', 0, 50, 50},  // Add 50 -> Min: 50
@@ -74,12 +74,12 @@ int main() {
     }
 
     long long res = min_q.best();
-    std::cout << "Op: " << t.action << " Id: " << t.id << " | Expected Best: " << t.expected
-              << " | Found: " << res;
+    cout << "Op: " << t.action << " Id: " << t.id << " | ";
+    cout << "Expected Best: " << t.expected << " | Found: " << res;
     if (res != t.expected) {
-      std::cout << " [ERROR]";
+      cout << " [ERROR]";
     }
-    std::cout << endl;
+    cout << endl;
   }
   return 0;
 }
