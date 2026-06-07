@@ -30,7 +30,7 @@ struct treap {
   };
 
   private:
-  // Robust 32-bit pseudo-random engine to prevent priority collisions.
+  // Robust 32-bit pseudo-random engine to prevent priority collisions
   static int next_priority() {
     static std::mt19937 rng(1337);  // Seeded deterministically for contest reproducibility
     return rng();
@@ -121,17 +121,17 @@ struct treap {
 
   // Splits the subtree u into two pieces: left gets k items, right gets the rest
   std::pair<node*, node*> split(node* u, int k) {
-    if (!u) return std::make_pair(nullptr, nullptr);
+    if (!u) return {nullptr, nullptr};
 
     node* c = clone(u);
     if (size(c->child[0]) >= k) {
       auto p = split(c->child[0], k);
       c->child[0] = p.second;
-      return std::make_pair(p.first, update(c));
+      return {p.first, update(c)};
     } else {
       auto p = split(c->child[1], k - size(c->child[0]) - 1);
       c->child[1] = p.first;
-      return std::make_pair(update(c), p.second);
+      return {update(c), p.second};
     }
   }
 

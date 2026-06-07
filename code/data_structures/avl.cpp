@@ -133,7 +133,7 @@ struct avl {
     return u != null;
   }
 
-  // Returns the number of elements strictly less than `key`.
+  // Returns the number of elements strictly less than `key`
   int order_of_key(const T& key) const {
     int r = 0;
     node* u = root;
@@ -148,7 +148,7 @@ struct avl {
     return r;
   }
 
-  // Returns the k-th smallest element (0-indexed by default, 1-indexed if `idx` is true).
+  // Returns the k-th smallest element (0-indexed by default, 1-indexed if `idx` is true)
   T kth(int k, bool idx = 0) const {
     assert(k >= 0 + idx && k < root->sz + idx);
     idx = !idx;
@@ -165,7 +165,7 @@ struct avl {
     return u->key;
   }
 
-  // Returns the elements in sorted order.
+  // Returns the elements in sorted order
   std::vector<T> in_order() const { return in_order(root); }
 };
 

@@ -79,7 +79,7 @@ int main() {
     if (res != t.expected) {
       std::cout << " [ERROR]";
     }
-    std::cout << "\n";
+    std::cout << endl;
   }
   return 0;
 }

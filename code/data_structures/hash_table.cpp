@@ -28,7 +28,7 @@ struct hash_table {
     return nullptr;
   }
 
-  // Inserts or updates the value associated with the given hash key.
+  // Inserts or updates the value associated with the given hash key
   void set(H hash, T val) {
     if (find(hash) != nullptr) {
       value[p] = val;
