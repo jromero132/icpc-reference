@@ -6,9 +6,10 @@
 //             neighbor pruning queries, and tree mutations across 2D and 3D.
 // =============================================================================
 
+#include "../../code/data_structures/randomized_kd_tree.cpp"
+
 #include <vector>
 
-#include "../../code/data_structures/randomized_kd_tree.cpp"
 #include "../doctest.h"
 
 TEST_CASE("Randomized K-D Tree - Comprehensive Verification Suite") {

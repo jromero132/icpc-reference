@@ -13,4 +13,5 @@
 #include "order_statistic.cpp"
 #include "persistent_treap.cpp"
 #include "randomized_kd_tree.cpp"
+#include "rmq.cpp"
 #include "rmq_direct.cpp"
