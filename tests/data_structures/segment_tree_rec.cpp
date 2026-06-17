@@ -5,12 +5,13 @@
 //             negative integers, and custom alternative structural policies.
 // =============================================================================
 
-#include "../../code/data_structures/segment_tree.cpp"
-
 #include <algorithm>
 #include <vector>
 
 #include "../doctest.h"
+
+namespace st_rec {
+#include "../../code/data_structures/segment_tree_rec.cpp"
 
 // Functors designed to configure a Range Maximum Query with Range Addition Tree
 struct max_combine {
@@ -22,10 +23,11 @@ struct max_lazy_apply {
     tree_val += lazy_val;
   }
 };
+}  // namespace st_rec
 
 TEST_CASE("Lazy Segment Tree - Verification Suite") {
   SUBCASE("Dummy & Trivial Boundary Edge Cases") {
-    segment_tree<long long> st(1, 0, 0);
+    st_rec::segment_tree<long long> st(1, 0, 0);
     CHECK(st.query(1, 1) == 0);
 
     st.update(1, 1, 10);
@@ -36,7 +38,7 @@ TEST_CASE("Lazy Segment Tree - Verification Suite") {
   }
 
   SUBCASE("Standard RSQ Accumulations & Overlaps") {
-    segment_tree<long long> st(10, 0, 0);
+    st_rec::segment_tree<long long> st(10, 0, 0);
 
     st.update(1, 10, 3);  // State: all values equal 3
     CHECK(st.query(1, 10) == 30);
@@ -50,7 +52,7 @@ TEST_CASE("Lazy Segment Tree - Verification Suite") {
   }
 
   SUBCASE("Negative Modifiers & Absolute Integrities") {
-    segment_tree<int> st(5, 0, 0);
+    st_rec::segment_tree<int> st(5, 0, 0);
     st.update(1, 5, 20);
     st.update(2, 4, -30);
 
@@ -62,7 +64,8 @@ TEST_CASE("Lazy Segment Tree - Verification Suite") {
 
   SUBCASE("Custom Alternative Policy Validation (Generic Range Max Query)") {
     // Identity elements: tree identity = -1e9 (infinity min), lazy identity = 0
-    segment_tree<int, max_combine, max_lazy_apply, default_lazy_merge<int>> st_max(5, -1000000000, 0);
+    st_rec::segment_tree<int, st_rec::max_combine, st_rec::max_lazy_apply, st_rec::default_lazy_merge<int>>
+        st_max(5, -1000000000, 0);
 
     // Manually baseline array from 0 to actual starting points:
     st_max.update(1, 1, 1000000005);  // Ind 1 = 5

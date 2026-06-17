@@ -15,4 +15,5 @@
 #include "randomized_kd_tree.cpp"
 #include "rmq.cpp"
 #include "rmq_direct.cpp"
-#include "segment_tree.cpp"
+#include "segment_tree_it.cpp"
+#include "segment_tree_rec.cpp"
